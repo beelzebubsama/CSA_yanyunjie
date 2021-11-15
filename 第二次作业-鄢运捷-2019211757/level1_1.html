@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var arr = [1, 2, 3, 3, 4, 'a', 'a', 'b', 'c'];
+        function reduce(arr) {
+            var res = [];    //用于复制数组
+            var count = 0;
+            var a = null;    //用于遍历res数组
+            var same = 0;    //如果存在相同数，则不记录当前arr数组值
+            for (i = 0; i < arr.length; i++) {   //用于复制数组
+                a = arr[i];
+                for (j = 0; j < i; j++) {     //遍历arr数组,检查是否重复
+                    if (a == arr[j]) {
+                        same++;
+                        break;
+                    }
+                }
+                if (same == 0) {
+                    res[count] = a;
+                    count++;
+                }
+                else same = 0;
+
+            }
+            return res;
+        }
+
+        console.log(reduce(arr));  //[1, 2, 3, 4, "a", "b", "c"]
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

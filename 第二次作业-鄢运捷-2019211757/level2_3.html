@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>var arr = [{ name: 'xiaoming', age: 18 }, { name: 'zhangsan', age: 34 },
+        { name: 'lisi', age: 29 }, { name: 'wangwu', age: 24 }];
+
+        function sortby(key, way) {//way为true表示默认按照升序排列
+            if (way) {
+                return function (a, b) {
+                    var va = a[key];
+                    var vb = b[key];
+                    return va - vb;
+                }
+            }
+            else return function (a, b) {
+                var va = a[key];
+                var vb = b[key];
+                return vb - va;
+            }
+        }
+
+
+        console.log(arr.sort(sortby('age'))) //[{name: "xiaoming", age: 18},{name: "wangwu", age: 24},{name: "lisi", age: 29},{name: "zhangsan", age: 34}]
+        console.log(arr.sort(sortby('name', false))) //[{name: "zhangsan", age: 34},{name: "xiaoming", age: 18},{name: "wangwu", age: 24},{name: "lisi", age: 29}]</script>
+</head>
+
+<body>
+
+</body>
+
+</html>
