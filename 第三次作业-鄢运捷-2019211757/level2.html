@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function course() {
+            this.coursename = "CSA前端培训";
+            this.semester = 2;
+        }
+        function student(name, age, gender) {
+            course.call(this, name, age, gender);
+            this.name = name;
+            this.age = age;
+            this.gender = gender;
+            this.moreinfo = function () {
+                var detail = function () {
+                    console.log(this.gender); //此处的this指向window 
+                }
+                detail.call(this);
+            }  //moreinfo函数在student1实例化时不会被引用，所以需要在实例化以后引用一次才会生效
+            this.show();
+        }
+        student.prototype.show = function () {
+            console.log(this.coursename, this.semester);
+
+        }
+
+        var student1 = new student("小明", 18, '男');
+        student1.moreinfo();
+
+
+
+
+        // console.log(student1.coursename, student1.semester); //课程名字和第几期
+        // student1.moreinfo();//你的性别
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
