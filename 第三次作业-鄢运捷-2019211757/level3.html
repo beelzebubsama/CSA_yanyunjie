@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var data = {
+            age: 18,
+            name: "这是真的难",
+            education: ["小学", "初中", "高中", "大学", undefined, null],
+            friends: [
+                { name: "Amber", sex: "woman" },
+                { name: "Barbara", sex: "woman" },
+                { name: "Venti", sex: "man" }],
+            work: {
+                time: "2021",
+                project: { name: "test", obtain: ["css", "html", "js"] }
+            },
+            play: function () { console.log("玩滑板"); }
+        }
+        function deepClone(obj) {
+            let objClone = Array.isArray(obj) ? [] : {}; //如果是数组，则obj是数组，不是的话变成对象
+            if (obj && typeof obj === "object") {
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) {   //hasOwnProperty方法的含义：判断属性是否存在
+                        //判断ojb子元素是否为对象，如果是，递归复制
+                        if (obj[key] && typeof obj[key] === "object") {
+                            objClone[key] = deepClone(obj[key]);
+                        } else {
+                            //如果不是，简单复制
+                            objClone[key] = obj[key];
+                        }
+                    }
+                }
+            }
+            return objClone;
+        }
+        var CopyData = deepClone(data);
+        CopyData.name = "看了CSDN以后还是感觉很难"
+        console.log(CopyData, data);
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
