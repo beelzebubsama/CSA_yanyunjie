@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="level3.js">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            background: url("牧濑红莉栖.jpg");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            height: 100%;
+        }
+
+        #main {
+            position: center;
+            background-color: rgb(148, 148, 148, 0.5);
+            margin: auto;
+            width: 1000px;
+            height: 100%;
+            position: relative;
+            top: 20px;
+            font-size: 20px;
+        }
+
+        #buttom {
+            display: inline-block;
+            width: 400px;
+        }
+
+        #font {
+            display: inline-block;
+            width: 400px;
+            margin-left: 190px;
+        }
+
+        .article {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="buttom">
+            <input type="radio" name="color" id="grown" onclick="" checked>褐色
+            <input type="radio" name="color" id="lightblue">浅蓝
+            <input type="radio" name="color" id="white">白色
+        </div>
+        <script>
+            var bgc = document.getElementById("main");
+            var g = document.getElementById("grown");
+            var b = document.getElementById("lightblue");
+            var w = document.getElementById("white");
+            g.onclick = function () {
+                bgc.style.backgroundColor = "rgba(148, 148, 148, 0.5)";
+            }
+            b.onclick = function () {
+                bgc.style.backgroundColor = "rgba(2, 157, 247, 0.3)";
+            }
+            w.onclick = function () {
+                bgc.style.backgroundColor = "rgba(255, 255, 255, 0.5)";
+            }
+        </script>
+        <div id="font">
+            正文字体大小：
+            <button id="jia">+</button>
+            <button id="jian">-</button>
+            字体大小：<span id="size">20</span>px
+        </div>
+        <div class="article">
+            <h1>个人主页</h1>
+            <p>name：鄢运捷</p>
+            <p>id：2019211757</p>
+            <p>js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难js好难
+            </p>
+        </div>
+        <script>
+            var a = document.getElementsByTagName("p");
+            var b = document.getElementById("jia");
+            var c = document.getElementById("jian");
+            var d = document.getElementById("size");
+            var num = 20;
+            b.onclick = function () {
+                num++;
+                for (var i = 0; i < a.length; i++) {
+                    a[i].style.fontSize = num + "px";
+                }
+                d.innerText = num;
+            }
+            c.onclick = function () {
+                num--;
+                for (var i = 0; i < a.length; i++) {
+                    a[i].style.fontSize = num + "px";
+                }
+                d.innerText = num;
+            }
+        </script>
+    </div>
+</body>
+
+</html>

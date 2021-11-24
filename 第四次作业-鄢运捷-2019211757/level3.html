@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: url(牧濑红莉栖.jpg);
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        height: 100%;
+        text-align: center;
+    }
+
+    #main {
+        background-color: rgba(255, 255, 255, 0.7);
+        width: 90%;
+        height: 500px;
+        margin: 0 auto;
+        border-radius: 25px;
+        margin-bottom: 50px;
+        overflow: auto;
+    }
+
+    #talk {
+        background-color: rgba(243, 188, 188, 0.7);
+        height: 250px;
+        width: 90%;
+        margin: 0 auto;
+        border-radius: 25px;
+        text-align: left;
+        text-indent: 2em;
+    }
+
+    #talkarea {
+        display: block;
+        margin: 10px;
+        margin-bottom: 10px;
+        width: 97%;
+        height: 60%;
+        background-color: rgba(255, 255, 255, 0.7);
+        font-size: 20px;
+    }
+
+    .what {
+        background-color: rgba(103, 236, 148, 0.7);
+        width: 60%;
+        height: 50px;
+        margin-left: 30px;
+        margin-bottom: 10px;
+        border-radius: 40px;
+        margin-right: 5%;
+        padding-left: 2em;
+        text-align: left;
+        font-size: 20px;
+        overflow: auto;
+        position: relative;
+        right: 200px;
+        display: inline-block;
+        resize: none;
+        line-height: 50px;
+
+    }
+
+    .delete {
+        display: inline-block;
+        position: relative;
+        right: -50px;
+        top: -15px;
+        width: 35px;
+        height: 35px;
+        border-radius: 20px;
+        margin-left: 5%;
+        cursor: pointer;
+    }
+
+
+    #button {
+        display: inline-block;
+        position: relative;
+        right: -1200px;
+    }
+</style>
+
+<body>
+    <div id="main">
+        <h1>留言内容</h1>
+        <!-- <div id="what">
+
+        </div> -->
+    </div>
+    <div id="talk">
+        <p class="tltle">聊天内容:</p>
+        <textarea rows="4" id="talkarea"></textarea>
+        <button id="button">
+            发送
+        </button>
+    </div>
+    <script>
+        var a = document.getElementById('button');
+        var b = document.getElementById('talkarea');
+        var c = document.getElementById('main');
+        a.onclick = function () {
+            if (b.value != '') {
+                var newdiv = document.createElement("div");
+                newdiv.innerHTML = "<div class='what'>" + b.value + "</div><input type='button' value ='删除' class='delete' onclick=test(this)> </input>"
+                //生成新的div与按钮，按钮自带一个onclick事件
+                c.appendChild(newdiv);
+                b.value = '';
+            }
+        }
+        function test(thisone) {
+            thisone.parentNode.parentNode.removeChild(thisone.parentNode);
+            //按钮的父节点是新生成的div，父节点的父节点是main框
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
