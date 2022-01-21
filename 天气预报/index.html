@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewpotr" content="width = 375px"> -->
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #timing {
+            margin-bottom: 1vw;
+        }
+
+        body {
+            background-image: url(素材.jpg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            height: 100vw;
+        }
+
+        #tit {
+            background-color: rgba(255, 255, 255, 0.7);
+            width: 100vw;
+            height: 20vw;
+            margin: 0 auto;
+            border-radius: 25px;
+            margin-bottom: 5vw;
+            text-align: center;
+            padding-top: 5vw;
+        }
+
+        #btn {
+            margin-left: 1em;
+            height: 10vw;
+            width: 15vw;
+            border-radius: 0.5vw;
+        }
+
+        #city {
+            height: 10vw;
+            width: 30vw;
+        }
+
+        #city:hover {
+            border-color: burlywood;
+        }
+
+        #main {
+            background-color: rgba(255, 255, 255, 0.7);
+            width: 100vw;
+            height: 60vw;
+            margin: 0 auto;
+            border-radius: 25px;
+            text-align: center;
+            padding-top: 3vw;
+            margin-right: 0;
+        }
+
+        #mess {
+            /* margin: auto; */
+            position: relative;
+            margin-left: 10vw;
+            margin-top: 5vw;
+            width: 80vw
+        }
+
+        #messhead {
+            text-align: center;
+            /* font-size: 30px; */
+        }
+
+        #tips {
+            background-color: white;
+            position: relative;
+            width: 30vw;
+            height: 30vw;
+            bottom: 77vw;
+            right: -25vw;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h4 id="timing">数据库最新更新时间：</h4>
+    <div id="tit">
+        <input type="text" id="city" placeholder="请输入所在城市">
+        <button id="btn">查询</button>
+    </div>
+    <div id="main">
+        <table id=mess border="1" cellspacing="0" cellpadding="0">
+            <thead id="messhead">
+                <td>日期</td>
+                <td>白天天气</td>
+                <td>最高温度</td>
+                <td>最低温度</td>
+            </thead>
+            <tbody id="messbody">
+
+            </tbody>
+        </table>
+    </div>
+    <div id="tips">
+        <!-- <p id="history">历史查询：</p> -->
+    </div>
+    <script>
+        var city = document.getElementById('city');
+        var btn = document.getElementById('btn');
+        var tbody = document.getElementById("messbody")
+        var historyCheck = document.getElementById('tips')
+        var cityID = '';  //获取城市的名称，便于在第一次AJAX请求中获取ID
+        var cityNode = '';  //获取城市的ID，便于在第二次AJAX请求中获取其他值
+        var maxT = [];   //最高温度
+        var minT = [];   //最低温度
+        var date = [];   //预测日期s
+        var weather = [];   //白天天气
+        var updateTime = '';  //最后一次查询时间
+        var history = []; //用于保存搜索记录
+        var count = 0;//用于遍历搜索记录
+        btn.onclick = function () {
+            tbody.innerHTML = '';  //清空表格
+            document.getElementById('timing').innerText = "数据库最新更新时间:";
+            cityID = city.value;
+
+            // console.log(cityID);
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'https://geoapi.qweather.com/v2/city/lookup?location=' + cityID + '&key=b1e5ecdb908a4a51aa2858cc3185c80b')
+            xhr.send()
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const res = JSON.parse(xhr.responseText);
+                    // console.log(res);
+                    addHistory(cityID);     //添加历史记录
+                    city.value = '';
+                    cityNode = res.location[0].id;
+                    getWeather(cityNode);
+                }
+            }
+            function getWeather(cityNode) {
+                var xhr1 = new XMLHttpRequest();
+                console.log(cityNode);
+                xhr1.open('GET', 'https://devapi.qweather.com/v7/weather/3d?location=' + cityNode + '&key=b1e5ecdb908a4a51aa2858cc3185c80b')
+                xhr1.send()
+                xhr1.onreadystatechange = function () {
+                    if (xhr1.readyState === 4) {
+                        const ret = JSON.parse(xhr1.responseText);
+                        console.log(ret);
+                        updateTime = ret.updateTime;
+                        for (let i = 0; i < 3; i++) {
+                            maxT[i] = ret.daily[i].tempMax
+                            minT[i] = ret.daily[i].tempMin
+                            weather[i] = ret.daily[i].textDay
+                            date[i] = ret.daily[i].fxDate
+                        }
+                        document.getElementById('timing').innerText += updateTime;
+                        for (let i = 0; i < 3; i++) {
+                            tbody.innerHTML += '<td>' + date[i] + "</td><td>" + weather[i] + '</td><td>' + maxT[i] + '</td><td>' + minT[i] + '</td>'
+                        }
+                        // console.log(maxT);
+                        // console.log(minT);
+                        // console.log(weather);
+                        // console.log(date);
+                        // console.log(updateTime);
+                    }
+
+                }
+            }
+            // console.log(cityNode);
+            //
+        }
+        // city.onclick = function () {
+        //     for (let i = 0; i < history.length; i++) {
+        //         if (history[i]) historyCheck.innerHTML += history[i] + '<br>'
+        //     }
+        // }
+        city.onmouseover = function () {
+            historyCheck.style.display = 'flex'
+            for (let i = 0; i <= history.length; i++) {
+                if (history[i]) historyCheck.innerHTML += history[i] + '<br>'
+            }
+        }
+        city.onmouseout = function () {
+            historyCheck.innerHTML = '';
+            historyCheck.style.display = 'none'
+        }
+        function addHistory(cityID) {
+            history[count] = cityID;
+            count++;
+            // for (let i = 0; i <= history.length; i++) {
+            //     if (history[i]) console.log(history[i]);
+            // }
+        }
+    </script>
+</body>
+
+</html>
